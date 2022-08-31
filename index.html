@@ -8,9 +8,10 @@
   <label>🌏 <output id="latlon"></output></label>
   <label>⛰️ <output id="altitude"></output></label>
   <label>⏩ <output id="speed"></output></label>
+  <output id="out"></output>
   <script>
     var btn = document.getElementById("locate");
-    var out = document.getElementById("output");
+    var out = document.getElementById("out");
 
     var elTime = document.getElementById("time");
     var elLatLon = document.getElementById("latlon");
@@ -48,10 +49,9 @@
             elSpeed.hidden = false;
             elSpeed.textContent = "" + coords.speed + "m/s";
           }
-          out.textContent = "Ok " + JSON.stringify(v, null, 2);
         },
         function error(e) {
-          out.textContent = "Err " + JSON.stringify(v, null, 2);
+          out.textContent = "Err: " + e.message;
         },
         {
           enableHighAccuracy: true
