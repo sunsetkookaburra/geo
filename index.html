@@ -1,20 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Geo</title>
+  <style>
+    :root {
+      font-size: 1.5em;
+    }
+    h1::before { content: "🌏 "; text-shadow: 0px 2px 2px black; }
+    ul {
+      padding-left: 1.8em;
+    }
+    #locate {
+      display: block;
+      width: 100%;
+      max-width: 20rem;
+      height: 4rem;
+      font-size: 2rem;
+    }
+    #locate::before { content: "📌 "; text-shadow: 0px 2px 2px black; }
+    #time::marker { content: "⌚ " }
+    #latlon::marker { content: "🌏 " }
+    #altitude::marker { content: "⛰️ " }
+    #speed::marker { content: "⏩ " }
+    #lat::marker { content: "↕️ " }
+    #lon::marker { content: "↔️ " }
+    #accu::marker { content: "🎯 " }
+  </style>
 </head>
 <body>
-  <button id="locate">📌</button>
-  <label>⌚ <output id="time"></output></label>
-  <label>🌏 <output id="latlon"></output></label>
-  <label>⛰️ <output id="altitude"></output></label>
-  <label>⏩ <output id="speed"></output></label>
-  <output id="out"></output>
+  <header><h1>Geo</h1></header>
+  <main>
+    <button id="locate">Locate</button>
+    <ul>
+      <li id="latlon" hidden>
+        <ul>
+          <li id="lat"></li>
+          <li id="lon"></li>
+          <li id="accu"></li>
+        </ul>
+      </li>
+      <li id="time" hidden></li>
+      <li id="altitude" hidden></li>
+      <li id="speed" hidden></li>
+    </ul>
+    <output id="out"></output>
+  </main>
+  <hr/>
+  <footer><a href="https://github.com/sunsetkookaburra/geo">Source Code</a></footer>
   <script>
     var btn = document.getElementById("locate");
     var out = document.getElementById("out");
 
     var elTime = document.getElementById("time");
     var elLatLon = document.getElementById("latlon");
+    var elLat = document.getElementById("lat");
+    var elLon = document.getElementById("lon");
+    var elAccu = document.getElementById("accu");
     var elAltitude = document.getElementById("altitude");
     var elSpeed = document.getElementById("speed");
 
@@ -27,16 +70,15 @@
       navigator.geolocation.getCurrentPosition(
         function success(v) {
           var coords = v.coords;
-          if (v.timestamp != null) {
-            elDate.hidden = false;
-            elDate.textContent = new Date(v.timestamp).toLocaleString();
-          }
           if (coords.latitude != null && coords.longitude != null) {
             elLatLon.hidden = false;
-            elLatLon.textContent = "" + coords.latitude + ", " + coords.longitude;
-            if (coords.accuracy != null) {
-              elLatLon.textContent += " +/- " + coords.accuracy + "m";
-            }
+            elLat.textContent = coords.latitude;
+            elLon.textContent = coords.longitude;
+            elAccu.textContent = "" + coords.accuracy + "m"
+          }
+          if (v.timestamp != null) {
+            elTime.hidden = false;
+            elTime.textContent = new Date(v.timestamp).toLocaleString();
           }
           if (coords.altitude != null) {
             elAltitude.hidden = false;
@@ -49,9 +91,11 @@
             elSpeed.hidden = false;
             elSpeed.textContent = "" + coords.speed + "m/s";
           }
+          console.log(v);
         },
         function error(e) {
           out.textContent = "Err: " + e.message;
+          console.log(e);
         },
         {
           enableHighAccuracy: true
