@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+  <button id="locate">📌</button>
+  <output id="output"></output>
+  <script>
+    var btn = document.getElementById("locate");
+    var out = document.getElementById("output");
+    btn.onclick = function click() {
+      navigator.geolocation.getCurrentPosition(
+        function success(v) {
+          out.textContent = "Ok " + JSON.stringify(v, null, 2);
+        },
+        function error(e) {
+          out.textContent = "Err " + JSON.stringify(v, null, 2);
+        },
+        {
+          enableHighAccuracy: true
+        }
+      );
+    };
+  </script>
+</body>
+</html>
