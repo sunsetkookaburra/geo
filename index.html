@@ -8,9 +8,17 @@
     :root {
       font-size: 1.5em;
     }
+    h1 {
+      margin-top: 0;
+    }
     h1::before { content: "🌏 "; text-shadow: 0px 2px 2px black; }
     ul {
       padding-left: 1.8em;
+      list-style-position: outside;
+      padding-left: 1.4rem;
+    }
+    main {
+      font-family: sans-serif;
     }
     #locate {
       display: block;
@@ -20,13 +28,13 @@
       font-size: 2rem;
     }
     #locate::before { content: "📌 "; text-shadow: 0px 2px 2px black; }
-    #time::marker { content: "⌚ " }
-    #latlon::marker { content: "🌏 " }
-    #altitude::marker { content: "⛰️ " }
-    #speed::marker { content: "⏩ " }
-    #lat::marker { content: "↕️ " }
-    #lon::marker { content: "↔️ " }
-    #accu::marker { content: "🎯 " }
+    #time { list-style-type: "⌚ " }
+    #latlon { list-style-type: "🌏 " }
+    #altitude { list-style-type: "⛰️ " }
+    #speed { list-style-type: "⏩ " }
+    #lat { list-style-type: "↕️ " }
+    #lon { list-style-type: "↔️ " }
+    #accu { list-style-type: "🎯 " }
   </style>
 </head>
 <body>
