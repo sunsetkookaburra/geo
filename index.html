@@ -4,13 +4,50 @@
 </head>
 <body>
   <button id="locate">📌</button>
-  <output id="output"></output>
+  <label>⌚ <output id="time"></output></label>
+  <label>🌏 <output id="latlon"></output></label>
+  <label>⛰️ <output id="altitude"></output></label>
+  <label>⏩ <output id="speed"></output></label>
   <script>
     var btn = document.getElementById("locate");
     var out = document.getElementById("output");
+
+    var elTime = document.getElementById("time");
+    var elLatLon = document.getElementById("latlon");
+    var elAltitude = document.getElementById("elev");
+    var elSpeed = document.getElementById("speed");
+
     btn.onclick = function click() {
+      elTime.hidden = true;
+      elLatLon.hidden = true;
+      elAltitude.hidden = true;
+      elSpeed.hidden = true;
+
       navigator.geolocation.getCurrentPosition(
         function success(v) {
+          var coords = v.coords;
+          if (v.timestamp != null) {
+            elDate.hidden = false;
+            elDate.textContent = new Date(v.timestamp).toLocaleString();
+          }
+          if (coords.latitude != null && coords.longitude != null) {
+            elLatLon.hidden = false;
+            elLatLon.textContent = "" + coords.latitude + ", " + coords.longitude;
+            if (coords.accuracy != null) {
+              elLatLon.textContent += " +/- " + coords.accuracy + "m";
+            }
+          }
+          if (coords.altitude != null) {
+            elAltitude.hidden = false;
+            elAltitude.textContent = "" + coords.altitude + "m";
+            if (coords.altitude.accuracy != null) {
+              elAltitude.textContent += " +/- " + coords.altitude.accuracy + "m";
+            }
+          }
+          if (coords.speed != null) {
+            elSpeed.hidden = false;
+            elSpeed.textContent = "" + coords.speed + "m/s";
+          }
           out.textContent = "Ok " + JSON.stringify(v, null, 2);
         },
         function error(e) {
